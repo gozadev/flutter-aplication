@@ -2,9 +2,11 @@
 
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/auth/create_password.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SmsOtp extends StatefulWidget {
@@ -19,17 +21,41 @@ class SmsOtp extends StatefulWidget {
 class _SmsOtpState extends State<SmsOtp> {
   int start = 30;
   bool visible = false;
+  String _verificationId = "";
   // ignore: unused_element
 
   // fungsi untuk menjalankan fungsi saat page dibuka
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => startTime());
-    // WidgetsBinding.instance.addPostFrameCallback((_) => test());
+    WidgetsBinding.instance.addPostFrameCallback((_) => phoneCheck());
   }
 
   Future phoneCheck() async {
-    print("test menjalankan function");
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: "+62${widget.phoneNumber}",
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await FirebaseAuth.instance
+              .signInWithCredential(credential)
+              .then((value) {
+            // Navigator.of(context).push(
+            //     MaterialPageRoute(builder: (context) => CreatePassword()));
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          print(e.message);
+        },
+        codeSent: (String verficationId, int? resendToken) {
+          setState(() {
+            _verificationId = verficationId;
+          });
+        },
+        codeAutoRetrievalTimeout: (String verficationId) {
+          setState(() {
+            _verificationId = verficationId;
+          });
+        },
+        timeout: Duration(seconds: 120));
   }
 
   void test() {
@@ -108,6 +134,7 @@ class _SmsOtpState extends State<SmsOtp> {
                     start = 30;
                     visible = false;
                     startTime();
+                    phoneCheck;
                   },
                   child: Text('Kirim Ulang')),
             )

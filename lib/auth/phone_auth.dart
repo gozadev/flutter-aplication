@@ -2,6 +2,7 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application/auth/sms_otp.dart';
@@ -18,31 +19,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
   final _phoneNumber = TextEditingController();
   // String _verificationId = "";
   // Future phoneCheck() async {
-  // await FirebaseAuth.instance.verifyPhoneNumber(
-  //     phoneNumber: "+62" + _phoneNumber.text,
-  //     verificationCompleted: (PhoneAuthCredential credential) async {
-  //       await FirebaseAuth.instance
-  //           .signInWithCredential(credential)
-  //           .then((value) async {
-  //         if (value.user != null) {
-  //           print('user loggin in');
-  //         }
-  //       });
-  //     },
-  //     verificationFailed: (FirebaseAuthException e) {
-  //       print(e.message);
-  //     },
-  //     codeSent: (String verficationId, int? resendToken) {
-  //       setState(() {
-  //         _verificationId = verficationId;
-  //       });
-  //     },
-  //     codeAutoRetrievalTimeout: (String verficationId) {
-  //       setState(() {
-  //         _verificationId = verficationId;
-  //       });
-  //     },
-  //     timeout: Duration(seconds: 120));
+
   // }
 
   @override
@@ -89,7 +66,20 @@ class _PhoneAuthState extends State<PhoneAuth> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
                   controller: _phoneNumber,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'[0-9]'),
+                    ),
+                    FilteringTextInputFormatter.deny(
+                      RegExp(r'^0+'), //users can't type 0 at 1st position
+                    ),
+                  ],
                   decoration: InputDecoration(
+                      prefix: Padding(
+                        padding: EdgeInsets.all(4),
+                        child: Text('+62'),
+                      ),
                       border: InputBorder.none,
                       hintText: "Masukan No Handphone Anda"),
                 ),
