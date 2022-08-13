@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -15,16 +17,39 @@ class SmsOtp extends StatefulWidget {
 }
 
 class _SmsOtpState extends State<SmsOtp> {
+  int start = 30;
+  bool visible = false;
   // ignore: unused_element
 
   // fungsi untuk menjalankan fungsi saat page dibuka
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) => phoneCheck());
-  // }
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => startTime());
+    // WidgetsBinding.instance.addPostFrameCallback((_) => test());
+  }
 
   Future phoneCheck() async {
     print("test menjalankan function");
+  }
+
+  void test() {
+    print("test lagi");
+  }
+
+  void startTime() {
+    const onSec = Duration(seconds: 1);
+    Timer _timer = Timer.periodic(onSec, (timer) {
+      if (start == 0) {
+        setState(() {
+          timer.cancel();
+          visible = true;
+        });
+      } else {
+        setState(() {
+          start--;
+        });
+      }
+    });
   }
 
   @override
@@ -58,6 +83,34 @@ class _SmsOtpState extends State<SmsOtp> {
                 textAlign: TextAlign.center,
               ),
             ),
+            SizedBox(
+              height: 25,
+            ),
+            RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                  text: "Kirim ulang kode OTP ",
+                  style: TextStyle(fontSize: 20, color: Colors.black)),
+              TextSpan(
+                  text: '$start ',
+                  style: TextStyle(fontSize: 20, color: Colors.pinkAccent)),
+              TextSpan(
+                  text: 'Detik',
+                  style: TextStyle(fontSize: 20, color: Colors.black)),
+            ])),
+            SizedBox(
+              height: 10,
+            ),
+            Visibility(
+              visible: visible,
+              child: TextButton(
+                  onPressed: () {
+                    start = 30;
+                    visible = false;
+                    startTime();
+                  },
+                  child: Text('Kirim Ulang')),
+            )
           ],
         )),
       ),
