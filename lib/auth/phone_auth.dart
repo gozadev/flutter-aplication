@@ -1,8 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/auth/sms_otp.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PhoneAuth extends StatefulWidget {
@@ -13,6 +15,36 @@ class PhoneAuth extends StatefulWidget {
 }
 
 class _PhoneAuthState extends State<PhoneAuth> {
+  final _phoneNumber = TextEditingController();
+  // String _verificationId = "";
+  // Future phoneCheck() async {
+  // await FirebaseAuth.instance.verifyPhoneNumber(
+  //     phoneNumber: "+62" + _phoneNumber.text,
+  //     verificationCompleted: (PhoneAuthCredential credential) async {
+  //       await FirebaseAuth.instance
+  //           .signInWithCredential(credential)
+  //           .then((value) async {
+  //         if (value.user != null) {
+  //           print('user loggin in');
+  //         }
+  //       });
+  //     },
+  //     verificationFailed: (FirebaseAuthException e) {
+  //       print(e.message);
+  //     },
+  //     codeSent: (String verficationId, int? resendToken) {
+  //       setState(() {
+  //         _verificationId = verficationId;
+  //       });
+  //     },
+  //     codeAutoRetrievalTimeout: (String verficationId) {
+  //       setState(() {
+  //         _verificationId = verficationId;
+  //       });
+  //     },
+  //     timeout: Duration(seconds: 120));
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +88,7 @@ class _PhoneAuthState extends State<PhoneAuth> {
                     borderRadius: BorderRadius.circular(10)),
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: TextField(
+                  controller: _phoneNumber,
                   decoration: InputDecoration(
                       border: InputBorder.none,
                       hintText: "Masukan No Handphone Anda"),
@@ -66,18 +99,24 @@ class _PhoneAuthState extends State<PhoneAuth> {
             // submit
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: Container(
-                padding: EdgeInsets.all(25),
-                decoration: BoxDecoration(
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Center(
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.white),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SmsOtp(_phoneNumber.text)));
+                },
+                child: Container(
+                  padding: EdgeInsets.all(25),
+                  decoration: BoxDecoration(
+                      color: Colors.purple,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Center(
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                          color: Colors.white),
+                    ),
                   ),
                 ),
               ),
