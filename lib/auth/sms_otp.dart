@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/auth/alert_success_vertif.dart';
 import 'package:flutter_application/auth/create_password.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -40,8 +41,8 @@ class _SmsOtpState extends State<SmsOtp> {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
               .then((value) {
-            // Navigator.of(context).push(
-            //     MaterialPageRoute(builder: (context) => CreatePassword()));
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AlertSuccessVerif()));
           });
         },
         verificationFailed: (FirebaseAuthException e) {

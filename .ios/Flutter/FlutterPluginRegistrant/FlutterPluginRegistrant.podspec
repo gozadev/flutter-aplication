@@ -22,4 +22,5 @@ Depends on all your plugins, and provides a function to register them.
   s.dependency 'firebase_auth'
   s.dependency 'firebase_core'
   s.dependency 'path_provider_ios'
+  s.dependency 'shared_preferences_ios'
 end

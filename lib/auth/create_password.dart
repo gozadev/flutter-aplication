@@ -3,10 +3,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_application/dashboard.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreatePassword extends StatelessWidget {
-  const CreatePassword({Key? key}) : super(key: key);
+  final _password = TextEditingController();
+
+  void setPreference() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (prefs.containsKey('password')) {
+      prefs.clear();
+    }
+
+    prefs.setString('password', _password.text);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +58,7 @@ class CreatePassword extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
+                    controller: _password,
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: "Masukan password anda"),
@@ -59,7 +72,11 @@ class CreatePassword extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  setPreference();
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => Dashboard()));
+                },
                 child: Container(
                   padding: EdgeInsets.all(25),
                   decoration: BoxDecoration(
