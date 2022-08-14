@@ -19,7 +19,7 @@ class SmsOtp extends StatefulWidget {
 }
 
 class _SmsOtpState extends State<SmsOtp> {
-  int start = 30;
+  int start = 120;
   bool visible = false;
   String _verificationId = "";
   // ignore: unused_element
@@ -131,10 +131,10 @@ class _SmsOtpState extends State<SmsOtp> {
               visible: visible,
               child: TextButton(
                   onPressed: () {
-                    start = 30;
+                    start = 120;
                     visible = false;
                     startTime();
-                    phoneCheck;
+                    phoneCheck();
                   },
                   child: Text('Kirim Ulang')),
             )
