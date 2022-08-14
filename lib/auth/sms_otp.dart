@@ -22,6 +22,7 @@ class _SmsOtpState extends State<SmsOtp> {
   int start = 120;
   bool visible = false;
   String _verificationId = "";
+  int? _forceResendingToken;
   // ignore: unused_element
 
   // fungsi untuk menjalankan fungsi saat page dibuka
@@ -34,6 +35,7 @@ class _SmsOtpState extends State<SmsOtp> {
   Future phoneCheck() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: "+62${widget.phoneNumber}",
+        forceResendingToken: _forceResendingToken,
         verificationCompleted: (PhoneAuthCredential credential) async {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
@@ -48,6 +50,7 @@ class _SmsOtpState extends State<SmsOtp> {
         codeSent: (String verficationId, int? resendToken) {
           setState(() {
             _verificationId = verficationId;
+            _forceResendingToken = resendToken;
           });
         },
         codeAutoRetrievalTimeout: (String verficationId) {
