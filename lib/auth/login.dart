@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
-                maxLength: 6,
+                keyboardType: TextInputType.number,
                 obscureText: true,
                 controller: _password,
                 decoration: InputDecoration(

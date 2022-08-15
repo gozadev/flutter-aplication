@@ -60,8 +60,8 @@ class CreatePassword extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
-                    maxLength: 6,
                     obscureText: true,
+                    keyboardType: TextInputType.number,
                     controller: _password,
                     decoration: InputDecoration(
                         border: InputBorder.none,
