@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -26,7 +28,6 @@ class _LoginState extends State<Login> {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.containsKey('password')) {
       password = prefs.getString('password');
-      print(password);
     }
   }
 
@@ -36,6 +37,7 @@ class _LoginState extends State<Login> {
         body: SafeArea(
             child: Center(
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        // ignore: prefer_const_constructors
         Icon(
           Icons.key_off_outlined,
           size: 100,
@@ -61,6 +63,8 @@ class _LoginState extends State<Login> {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: TextField(
+                maxLength: 6,
+                obscureText: true,
                 controller: _password,
                 decoration: InputDecoration(
                     border: InputBorder.none,
@@ -78,10 +82,10 @@ class _LoginState extends State<Login> {
             onTap: () {
               if (_password.text == password) {
                 Navigator.of(context)
+                    // ignore: prefer_const_constructors
                     .push(MaterialPageRoute(builder: (context) => Dashboard()));
               } else {
-                print(_password);
-                print(password);
+                print('gagal');
               }
             },
             child: Container(

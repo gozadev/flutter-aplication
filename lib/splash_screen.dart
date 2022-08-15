@@ -8,6 +8,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_application/auth/phone_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'auth/login.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -24,9 +27,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   SplashScreenStart() async {
     var duration = const Duration(seconds: 10);
+    final prefs = await SharedPreferences.getInstance();
     return Timer(duration, () {
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => PhoneAuth()));
+      if (prefs.containsKey('password')) {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => Login()));
+      } else {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => PhoneAuth()));
+      }
     });
   }
 

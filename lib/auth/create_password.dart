@@ -7,6 +7,8 @@ import 'package:flutter_application/dashboard.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'login.dart';
+
 class CreatePassword extends StatelessWidget {
   final _password = TextEditingController();
 
@@ -58,6 +60,8 @@ class CreatePassword extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
+                    maxLength: 6,
+                    obscureText: true,
                     controller: _password,
                     decoration: InputDecoration(
                         border: InputBorder.none,
@@ -74,8 +78,8 @@ class CreatePassword extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   setPreference();
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Dashboard()));
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: Container(
                   padding: EdgeInsets.all(25),
